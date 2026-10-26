@@ -77,7 +77,8 @@ in
       ++ optionals (config.mobile.usb.mode == "gadgetfs") (
         forEach cfg.usb.features (feature:
           let function = lib.head (lib.splitString "." gadgetfs.functions."${feature}");
-          in "usb_f_${function}"
+          # FunctionFS is named ffs in configfs, but its module is usb_f_fs.
+          in "usb_f_${if function == "ffs" then "fs" else function}"
         )
       );
 
