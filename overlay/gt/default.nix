@@ -17,6 +17,10 @@ stdenv.mkDerivation rec {
     libconfig
     libusbgx
   ];
+  # gt's CMakeLists.txt predates CMake 3.5, which CMake 4 no longer accepts.
+  cmakeFlags = [
+    "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
+  ];
   sourceRoot = "${src.name}/source";
   src = fetchFromGitHub {
     owner = "linux-usb-gadgets";
