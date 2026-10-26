@@ -1,0 +1,27 @@
+= Fairphone (Gen. 6)
+include::_support/common-device-README.adoc[]
+
+Qualcomm SM7635 ("milos"). DRAFT port, not ready to merge.
+
+== Status
+
+Boots to a full NixOS (Lomiri/Mir or Phosh) when RAM-booted with
+`fastboot boot`; display, GPU, touch, audio, Wi-Fi, Bluetooth, modem
+(data/SMS), sensors and cameras work with the patches and modules kept
+in the out-of-tree port.
+
+== Blockers for upstreaming
+
+* Kernel: `kernel/default.nix` still has a placeholder source hash, and
+  the out-of-tree port carries extra patches (UFS suspend, stk3310,
+  ESWIN touch, battmgr) that are being sent upstream separately.
+* Boot image: the image is repacked from a header v2 template
+  (`repack-boot.py`, `boot-template.nix`) instead of being produced by
+  Mobile NixOS' mkbootimg with a DTB section.
+* Firmware: no redistributable source; `firmware/` uses `requireFile`.
+
+== Safety
+
+Never `fastboot flash` an untested image. Test with `fastboot boot`
+first; write the boot slot only after the RAM-booted system was
+verified.

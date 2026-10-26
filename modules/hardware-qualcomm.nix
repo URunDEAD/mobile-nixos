@@ -19,6 +19,7 @@ let
     cfg.qualcomm-sdm660.enable
     cfg.qualcomm-sdm845.enable
     cfg.qualcomm-sm6125.enable
+    cfg.qualcomm-sm7635.enable
     cfg.qualcomm-apq8064-1aa.enable
   ];
 in
@@ -53,6 +54,11 @@ in
       type = types.bool;
       default = false;
       description = "enable when SOC is msm8998";
+    };
+    hardware.socs.qualcomm-sm7635.enable = mkOption {
+      type = types.bool;
+      default = false;
+      description = "enable when SOC is SM7635 (milos)";
     };
     hardware.socs.qualcomm-sc7180.enable = mkOption {
       type = types.bool;
@@ -121,6 +127,12 @@ in
     {
       mobile = mkIf cfg.qualcomm-sm6125.enable {
         system.system = "aarch64-linux";
+      };
+    }
+    {
+      mobile = mkIf cfg.qualcomm-sm7635.enable {
+        system.system = "aarch64-linux";
+        boot.boot-control.enable = mkDefault true;
       };
     }
     {
